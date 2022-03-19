@@ -1,97 +1,92 @@
 package controller;
 
-import view.DownPanel;
+import view.BottomPanel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class Generator {
-    public Generator(JSlider slider, JTextField password, DownPanel downPanel) {
-        String capitalCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
-        String specialCharacters = "!@#$%^&*+-/.,{}[]();:";
-        String numbers = "1234567890";
 
-        int lungPass = slider.getValue();
+    private final String capitalCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+    private final String specialCharacters = "!@#$%^&*+-/.,{}[]();:";
+    private final String numbers = "1234567890";
 
-        Random random = new Random();
-        char[] passwdString = new char[lungPass];
+    private int passwordLenght;
+    private BottomPanel bottomPanel;
 
-        Boolean[] checkBox = {false, false, false, false};
-        String combinedChars = "";
-
-        if (downPanel.getLettereMaius().isSelected()) {
-            checkBox[0] = true;
-            combinedChars = combinedChars + capitalCaseLetters;
-        }
-        if (downPanel.getLettereMin().isSelected()) {
-            checkBox[1] = true;
-            combinedChars = combinedChars + lowerCaseLetters;
-        }
-        if (downPanel.getNumeri().isSelected()) {
-            checkBox[2] = true;
-            combinedChars = combinedChars + numbers;
-        }
-        if (downPanel.getCarSpeciali().isSelected()) {
-            checkBox[3] = true;
-            combinedChars = combinedChars + specialCharacters;
-        }
-
-        int[] posCharSel = {-1, -1, -1, -1};
-
-        if(checkBox[0]) {
-            posCharSel[0] = random.nextInt(lungPass);
-            passwdString[posCharSel[0]] = capitalCaseLetters.charAt(random.nextInt(capitalCaseLetters.length()));
-        }
-        if(checkBox[1]) {
-            posCharSel[1] = random.nextInt(lungPass);
-            for (int i = 0; i < 1; i++) {
-                while (posCharSel[1] == posCharSel[i]) {
-                    posCharSel[1] = random.nextInt(lungPass);
-                }
-            }
-            passwdString[posCharSel[1]] = lowerCaseLetters.charAt((random.nextInt(lowerCaseLetters.length())));
-        }
-        if(checkBox[2]) {
-            posCharSel[2] = random.nextInt(lungPass);
-            for(int i=0; i<2; i++) {
-                while(posCharSel[2] == posCharSel[i]) {
-                    posCharSel[2] = random.nextInt(lungPass);
-                }
-            }
-            passwdString[posCharSel[2]] = numbers.charAt((random.nextInt(numbers.length())));
-        }
-        if(checkBox[3]) {
-            posCharSel[3] = random.nextInt(lungPass);
-            for(int i=0; i<3; i++)
-                while(posCharSel[3] == posCharSel[i])
-                    posCharSel[3] = random.nextInt(lungPass);
-            passwdString[posCharSel[3]] = specialCharacters.charAt((random.nextInt(specialCharacters.length())));
-        }
-
-        Boolean[] compare = {false, false, false, false};
-
-        if(Arrays.equals(checkBox, compare))
-            password.setText("Selezionare almeno una casella");
-        else {
-            for (int i = 0; i < lungPass; i++)
-                for (int k = 0; k < 4; k++)
-                    if ((posCharSel[k] != -1) && (i != posCharSel[k]))
-                        passwdString[i] = combinedChars.charAt(random.nextInt(combinedChars.length()));
-
-            password.setText(String.valueOf(passwdString));
-        }
-
-        copy(password);
+    public Generator(int passwordLenght, BottomPanel bottomPanel) {
+        this.passwordLenght = passwordLenght;
+        this.bottomPanel = bottomPanel;
     }
 
-    private void copy(JTextField password) {
-        StringSelection stringSelection = new StringSelection (password.getText());
-        Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
-        clpbrd.setContents (stringSelection, null);
+    /**
+     * Generates and returns a collection of integers and shuffle them.
+     *
+     * @return a collection of integer
+     */
+    private Integer[] generateRandomPos() {
+        Integer[] collection = new Integer[passwordLenght];
+        for (int i = 0; i < collection.length; i++)
+            collection[i] = i;
+
+        Collections.shuffle(Arrays.asList(collection));
+        return collection;
+    }
+
+    /**
+     * Check the options selected by the user and returns the string with the combination of matching characters.
+     *
+     * @return the string with the combination of matching characters.
+     */
+    private String getPasswordCharacters() {
+        String combinedChars = "";
+
+        if (bottomPanel.getLettereMaius().isSelected())
+            combinedChars = capitalCaseLetters;
+
+        if (bottomPanel.getLettereMin().isSelected())
+            combinedChars += lowerCaseLetters;
+
+        if (bottomPanel.getNumeri().isSelected())
+            combinedChars += numbers;
+
+        if (bottomPanel.getCarSpeciali().isSelected())
+            combinedChars += specialCharacters;
+
+        return combinedChars;
+    }
+
+    public char[] generatePassword() {
+        char[] passwdString = new char[passwordLenght];
+        Integer[] posCharSel = generateRandomPos();
+        Random random = new Random();
+
+        String combinedChars;
+        if (!bottomPanel.getLettereMaius().isSelected() && !bottomPanel.getLettereMin().isSelected() && !bottomPanel.getNumeri().isSelected() && !bottomPanel.getCarSpeciali().isSelected()) {
+            combinedChars = capitalCaseLetters + lowerCaseLetters + numbers;
+        } else {
+            combinedChars = getPasswordCharacters();
+            if (bottomPanel.getLettereMaius().isSelected())
+                passwdString[posCharSel[0]] = capitalCaseLetters.charAt(random.nextInt(capitalCaseLetters.length()));
+
+            if (bottomPanel.getLettereMin().isSelected())
+                passwdString[posCharSel[1]] = lowerCaseLetters.charAt((random.nextInt(lowerCaseLetters.length())));
+
+            if (bottomPanel.getNumeri().isSelected())
+                passwdString[posCharSel[2]] = numbers.charAt((random.nextInt(numbers.length())));
+
+            if (bottomPanel.getCarSpeciali().isSelected())
+                passwdString[posCharSel[3]] = specialCharacters.charAt((random.nextInt(specialCharacters.length())));
+        }
+
+        for (int i = 0; i < passwordLenght; i++)
+            for (int j = 0; j < 4; j++)
+                if (i != posCharSel[j])
+                    passwdString[i] = combinedChars.charAt(random.nextInt(combinedChars.length()));
+
+        CopyToClipboard.copy(String.valueOf(passwdString));
+        return passwdString;
     }
 }

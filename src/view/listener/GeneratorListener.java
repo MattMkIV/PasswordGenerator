@@ -1,7 +1,7 @@
 package view.listener;
 
 import controller.Generator;
-import view.DownPanel;
+import view.BottomPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,16 +11,18 @@ public class GeneratorListener implements ActionListener {
 
     private JSlider slider;
     private JTextField password;
-    private DownPanel downPanel;
+    private BottomPanel bottomPanel;
 
-    public GeneratorListener(JSlider slider, JTextField password, DownPanel downPanel) {
+    public GeneratorListener(JSlider slider, JTextField password, BottomPanel bottomPanel) {
         this.slider = slider;
         this. password = password;
-        this.downPanel = downPanel;
+        this.bottomPanel = bottomPanel;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        new Generator(slider, password, downPanel);
+        Generator g = new Generator(slider.getValue(), bottomPanel);
+        char[] pasString = g.generatePassword();
+        password.setText(String.valueOf(pasString));
     }
 }

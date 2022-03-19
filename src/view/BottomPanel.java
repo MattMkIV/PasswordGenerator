@@ -2,13 +2,13 @@ package view;
 
 import javax.swing.*;
 
-public class DownPanel extends JPanel {
+public class BottomPanel extends JPanel {
     private JCheckBox lettereMaius;
     private JCheckBox lettereMin;
     private JCheckBox numeri;
     private JCheckBox carSpeciali;
 
-    public DownPanel() {
+    public BottomPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         lettereMaius = new JCheckBox("Lettere maiuscole A-Z");

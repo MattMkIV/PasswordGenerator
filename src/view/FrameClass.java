@@ -9,11 +9,11 @@ public class FrameClass extends JFrame {
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         TopPanel topPanel = new TopPanel();
-        DownPanel downPanel = new DownPanel();
+        BottomPanel bottomPanel = new BottomPanel();
 
         add(topPanel);
-        add(new CentrePanel(downPanel, topPanel.getPassword()));
-        add(downPanel);
+        add(new MidPanel(bottomPanel, topPanel.getPassword()));
+        add(bottomPanel);
 
         setPreferredSize(new Dimension(450,200));
         pack();
