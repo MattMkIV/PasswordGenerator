@@ -1,5 +1,9 @@
 package view;
 
+import view.panel.BottomPanel;
+import view.panel.MidPanel;
+import view.panel.TopPanel;
+
 import javax.swing.*;
 import java.awt.*;
 

@@ -1,7 +1,7 @@
 package view.listener;
 
 import controller.Generator;
-import view.BottomPanel;
+import view.panel.BottomPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,6 +1,6 @@
 package controller;
 
-import view.BottomPanel;
+import view.panel.BottomPanel;
 
 import java.util.Arrays;
 import java.util.Collections;
