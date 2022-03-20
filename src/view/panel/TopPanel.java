@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TopPanel extends JPanel {
+
     private JTextField password;
     private JButton copy;
 
@@ -17,7 +18,7 @@ public class TopPanel extends JPanel {
         password.setEditable(false);
 
         copy = new JButton("Copia");
-        copy.setPreferredSize(new Dimension(65,25));
+        copy.setPreferredSize(new Dimension(65, 25));
 
         copy.addActionListener(new CopyListener(password));
 

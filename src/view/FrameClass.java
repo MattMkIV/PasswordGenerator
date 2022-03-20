@@ -13,13 +13,13 @@ public class FrameClass extends JFrame {
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         TopPanel topPanel = new TopPanel();
-        BottomPanel bottomPanel = new BottomPanel();
-
         add(topPanel);
-        add(new MidPanel(bottomPanel, topPanel.getPassword()));
+        MidPanel midPanel = new MidPanel();
+        add(midPanel);
+        BottomPanel bottomPanel = new BottomPanel(midPanel.getSlider(), topPanel.getPassword());
         add(bottomPanel);
 
-        setPreferredSize(new Dimension(450,200));
+        setPreferredSize(new Dimension(550, 250));
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

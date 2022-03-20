@@ -15,7 +15,7 @@ public class GeneratorListener implements ActionListener {
 
     public GeneratorListener(JSlider slider, JTextField password, BottomPanel bottomPanel) {
         this.slider = slider;
-        this. password = password;
+        this.password = password;
         this.bottomPanel = bottomPanel;
     }
 
