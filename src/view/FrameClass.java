@@ -19,7 +19,8 @@ public class FrameClass extends JFrame {
         BottomPanel bottomPanel = new BottomPanel(midPanel.getSlider(), topPanel.getPassword());
         add(bottomPanel);
 
-        setPreferredSize(new Dimension(550, 250));
+        setPreferredSize(new Dimension(480, 210));
+
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
