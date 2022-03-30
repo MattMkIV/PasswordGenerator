@@ -1,5 +1,9 @@
 package view;
 
+import view.panel.BottomPanel;
+import view.panel.MidPanel;
+import view.panel.TopPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,13 +13,14 @@ public class FrameClass extends JFrame {
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         TopPanel topPanel = new TopPanel();
-        DownPanel downPanel = new DownPanel();
-
         add(topPanel);
-        add(new CentrePanel(downPanel, topPanel.getPassword()));
-        add(downPanel);
+        MidPanel midPanel = new MidPanel();
+        add(midPanel);
+        BottomPanel bottomPanel = new BottomPanel(midPanel.getSlider(), topPanel.getPassword());
+        add(bottomPanel);
 
-        setPreferredSize(new Dimension(450,200));
+        setPreferredSize(new Dimension(480, 210));
+
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
